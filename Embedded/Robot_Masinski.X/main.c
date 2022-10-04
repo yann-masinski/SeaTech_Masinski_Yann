@@ -33,27 +33,19 @@ int main(void) {
     // Boucle Principale
     /****************************************************************************************************/
     while (1) {
-        /*
-        if (ADCIsConversionFinished == 1) {
-            ADCClearConversionFinishedFlag();
-            unsigned int * result = ADCGetResult();
-            result[0]=robotStateBITS.ADCValue0;
-            result[1]=robotStateBITS.ADCValue1;
-            result[2]=robotStateBITS.ADCValue2;
-        }
-         */
         if (ADCIsConversionFinished() == 1) {
+            
             unsigned int * result = ADCGetResult();
             ADCValue0 = result[0];
-            if (ADCValue0>0x012C) LED_ORANGE = 1;
+            if (ADCValue0>310) LED_ORANGE = 1;
             else LED_ORANGE=0;
             
             ADCValue1 = result[1];
-            if (ADCValue1>0x012C) LED_BLEUE = 1;
+            if (ADCValue1>310) LED_BLEUE = 1;
             else LED_BLEUE=0;
             
             ADCValue2 = result[2];
-            if (ADCValue2>0x012C) LED_BLANCHE = 1;
+            if (ADCValue2>310) LED_BLANCHE = 1;
             else LED_BLANCHE=0;
             
             ADCClearConversionFinishedFlag();

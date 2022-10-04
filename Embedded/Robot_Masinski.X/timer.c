@@ -53,7 +53,7 @@ void InitTimer1(void) {
     //01 = 1:8 prescale value
     //00 = 1:1 prescale value
     T1CONbits.TCS = 0; //clock source = internal clock
-    PR1 = 40000000/64/50;
+    PR1 = 40000000/64/150;
 
     
     
