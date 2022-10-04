@@ -10,8 +10,7 @@
 
 #include "IO.h"
 
-void InitIO()
- {
+void InitIO() {
 
     // IMPORTANT : désactiver les entrées analogiques, sinon on perd les entrées numériques
 
@@ -42,7 +41,7 @@ void InitIO()
     _TRISG7 = 0; // LED Bleue
 
     // Moteurs 
-    // PIN  B14 B15
+    // PIN      G B14 B15    D C6 C7
     _TRISB14 = 0;
     _TRISB15 = 0;
 
@@ -51,6 +50,10 @@ void InitIO()
 
     //********** Configuration des entrées : _TRISxx = 1 ********************************   
 
+    // Entré des capteurs 
+    _TRISC0 = 1;    //milieu droit    
+    _TRISC11 = 1;   //milieu
+    _TRISG9 = 1;    //milieu gauche
 
 
 }

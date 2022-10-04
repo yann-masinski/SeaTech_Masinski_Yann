@@ -25,6 +25,7 @@
 #define MOTEUR_DROIT_L_PWM_ENABLE IOCON6bits.PENL
 #define MOTEUR_DROIT_H_PWM_ENABLE IOCON6bits.PENH
 #define MOTEUR_DROIT_DUTY_CYCLE PDC6
+
 // Prototypes fonctions
 void InitIO();
 

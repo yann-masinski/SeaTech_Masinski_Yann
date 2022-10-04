@@ -2,6 +2,8 @@
 #include "ChipConfig.h"
 #include "IO.h"
 #include "PWM.h"
+#include "ADC.h"
+
 
 //Initialisation d?un timer 32 bits
 
@@ -31,12 +33,12 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
         PWMSetSpeedConsigne(20, MOTEUR_DROIT);
         PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
         toggle = 1;
-        LED_ORANGE = !LED_ORANGE;
+        //LED_ORANGE = !LED_ORANGE;
     } else {
         PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
         PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
         toggle = 0;
-        LED_ORANGE = !LED_ORANGE;
+        //LED_ORANGE = !LED_ORANGE;
     }
 }
 
@@ -53,6 +55,8 @@ void InitTimer1(void) {
     T1CONbits.TCS = 0; //clock source = internal clock
     PR1 = 40000000/64/50;
 
+    
+    
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
@@ -62,6 +66,7 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    LED_BLANCHE = !LED_BLANCHE;
+    //LED_BLANCHE = !LED_BLANCHE;
     PWMUpdateSpeed();
+    ADC1StartConversionSequence();
 }
