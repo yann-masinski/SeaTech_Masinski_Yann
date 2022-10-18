@@ -1,10 +1,12 @@
 #include <xc.h>
+#include "timer.h"
 #include "ChipConfig.h"
 #include "IO.h"
 #include "PWM.h"
 #include "ADC.h"
 #include "main.h"
 
+unsigned long timestamp = 0;
 
 //Initialisation d?un timer 32 bits
 
@@ -30,6 +32,7 @@ unsigned char toggle = 0;
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; //Clear Timer3 Interrupt Flag
+    /*
     if (toggle == 0) {
         PWMSetSpeedConsigne(20, MOTEUR_DROIT);
         PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
@@ -41,6 +44,7 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
         toggle = 0;
         //LED_ORANGE = !LED_ORANGE;
     }
+     */
 }
 
 //Initialisation d?un timer 16 bits
@@ -68,21 +72,11 @@ void InitTimer1(float freq) {
 //Initialisation d?un timer 16 bits
 
 void InitTimer4(float freq) {
-    //Timer1 pour horodater les mesures (1ms)
+    //Timer4 pour horodater les mesures (1ms)
     T4CONbits.TON = 0; // Disable Timer
     T4CONbits.TCS = 0; //clock source = internal clock
     SetFreqTimer4(freq);
     
-    
-    /*T4CONbits.TCKPS = 0b10; //Prescaler
-    //11 = 1:256 prescale value
-    //10 = 1:64 prescale value
-    //01 = 1:8 prescale value
-    //00 = 1:1 prescale value
-    PR4 = 40000000 / 64 / 250; //le 250 à la fin c'est la fréquence que je veux ici 250Hz*/
-
-
-
     IFS1bits.T4IF = 0; // Clear Timer Interrupt Flag
     IEC1bits.T4IE = 1; // Enable Timer interrupt
     T4CONbits.TON = 1; // Enable Timer
@@ -99,9 +93,10 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
 }
 
 //Interruption du timer 4
-
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
+    timestamp=timestamp+1;
+    OperatingSystemLoop();
 }
 
 void SetFreqTimer1(float freq) {
@@ -122,7 +117,7 @@ void SetFreqTimer1(float freq) {
 }
 
 void SetFreqTimer4(float freq) {
-    T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
+    T4CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
     if (FCY / freq > 65535) {
         T4CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
         if (FCY / freq / 8 > 65535) {
