@@ -8,20 +8,11 @@
 #ifndef MAIN_H
 #define	MAIN_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
-#define ADCValue0
-#define ADCValue1
-#define ADCValue2
+// Configuration des paramètres du Chip
+#define FCY 40000000
 
 
 
-
-#ifdef	__cplusplus
-}
-#endif
 
 #endif	/* MAIN_H */
 
