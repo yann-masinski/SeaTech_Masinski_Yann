@@ -51,9 +51,11 @@ void InitIO() {
     //********** Configuration des entrées : _TRISxx = 1 ********************************   
 
     // Entré des capteurs 
-    _TRISC0 = 1;    //milieu droit    
-    _TRISC11 = 1;   //milieu
-    _TRISG9 = 1;    //milieu gauche
+    _TRISC0 = 1;    //milieu droit    1
+    _TRISC11 = 1;   //milieu    2
+    _TRISG9 = 1;    //milieu gauche 3
+    _TRISB1 =1;     // extrem gauche  0
+    _TRISE15=1;     // extrem droit 4
 
 
 }
