@@ -48,50 +48,7 @@ int main(void) {
             volts = ((float) result[0])*3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremDroit = 34 / volts - 5;
             
-            
-            
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            // EXTREME DROIT MARCHE PAS
-            
-            
-            
-            /*
+   
             if (robotState.distanceTelemetreDroit < 30 || robotState.distanceTelemetreExtremDroit < 30) LED_ORANGE = 1;
             else LED_ORANGE = 0;
 
@@ -99,14 +56,11 @@ int main(void) {
             else LED_BLEUE = 0;
 
             if (robotState.distanceTelemetreGauche < 30 || robotState.distanceTelemetreExtremGauche < 30) LED_BLANCHE = 1;
-            else LED_ORANGE = 0;
-            */
-            if (robotState.distanceTelemetreCentre < 30) LED_ORANGE = 1;
-            else LED_ORANGE = 0;
+            else LED_BLANCHE = 0;
 
 
         }
-    } // fin main
+     } // fin main
 }
 
 unsigned char stateRobot;

@@ -48,7 +48,8 @@ void InitADC1(void) {
     /************************************************************/
     //Configuration des ports
     /************************************************************/
-    //ADC utilisés : 16(G9)-11(C11)-6(C0)  1(B1) 15(E15)                                 ICI POUR CHANGER LE NOMBRE DE CAPTEUR
+    // ANA 3 B1 extrem droit ANA 6 C0 droit ANA 11 C11 centre ANA 15 E15 extrem gauche ANA 16 G9 gauche
+    
     ANSELBbits.ANSB1 = 1;//extrem gauche
     ANSELCbits.ANSC0 = 1;
     ANSELCbits.ANSC11 = 1;
@@ -58,8 +59,8 @@ void InitADC1(void) {
 
     AD1CSSLbits.CSS6 = 1; // Enable AN6 for scan
     AD1CSSLbits.CSS11 = 1; // Enable AN11 for scan
-    AD1CSSHbits.CSS16 = 1; // Enable AN16 for scan
-    AD1CSSLbits.CSS1 = 1;
+    AD1CSSLbits.CSS3 = 1; // Enable AN16 for scan
+    AD1CSSHbits.CSS16 = 1;
     AD1CSSLbits.CSS15 = 1;
 
     /* Assign MUXA inputs */
