@@ -64,7 +64,7 @@ int main(void) {
 }
 
 unsigned char stateRobot;
-float vitesse = 30;
+float vitesse = 25;
 float vitessemanoeuvre = 25;
 float disevitement = 33;
 float demi = 0;
@@ -165,12 +165,12 @@ void SetNextRobotStateInAutomaticMode() {
     else if (robotState.distanceTelemetreCentre < disevitement) //Obstacle en face
         positionObstacle = OBSTACLE_EN_FACE;
 
-    else if (robotState.distanceTelemetreExtremDroit < disevitement - 5 &&
+    else if (robotState.distanceTelemetreExtremDroit < 22 &&
             robotState.distanceTelemetreDroit > disevitement &&
             robotState.distanceTelemetreCentre > disevitement &&
             robotState.distanceTelemetreGauche > disevitement) //Obstacle à ex gauche        
         positionObstacle = OBSTACLE_A_EXDROITE;
-    else if (robotState.distanceTelemetreExtremGauche < disevitement - 5 &&
+    else if (robotState.distanceTelemetreExtremGauche < 22 &&
             robotState.distanceTelemetreGauche > disevitement &&
             robotState.distanceTelemetreCentre > disevitement &&
             robotState.distanceTelemetreDroit > disevitement) //Obstacle à ex gauche        
@@ -189,14 +189,14 @@ void SetNextRobotStateInAutomaticMode() {
                 robotState.distanceTelemetreCentre < disevitement &&
                 robotState.distanceTelemetreGauche < disevitement)
             positionObstacle = OBSTACLE_AUTOUR;
-         */
+         
     else if (robotState.distanceTelemetreDroit > disevitement &&
             robotState.distanceTelemetreExtremDroit < disevitement - 5 &&
             robotState.distanceTelemetreExtremGauche < disevitement - 5 &&
             robotState.distanceTelemetreCentre > disevitement &&
             robotState.distanceTelemetreGauche > disevitement)
         positionObstacle = OBSTACLE_COTE;
-
+         */
 
 
 
