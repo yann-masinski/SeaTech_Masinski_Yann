@@ -28,6 +28,8 @@
 #define STATE_ARRET_EN_COURS 13
 #define STATE_RECULE 14
 #define STATE_RECULE_EN_COURS 15
+#define DEMI_TOUR 16
+#define DEMI_TOUR_EN_COURS 17
 
 #define PAS_D_OBSTACLE 0
 #define OBSTACLE_A_GAUCHE 1
@@ -35,6 +37,8 @@
 #define OBSTACLE_EN_FACE 3
 #define OBSTACLE_A_EXDROITE 4
 #define OBSTACLE_A_EXGAUCHE 5
+#define OBSTACLE_AUTOUR 6
+#define OBSTACLE_COTE 7
 void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode(void);
 
