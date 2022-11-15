@@ -21,12 +21,13 @@
 
         </Grid.ColumnDefinitions>
         <GroupBox x:Name="Emission" Header="Emission" Margin="5" Foreground="Black" BorderBrush="Black"  Grid.Column="0" Grid.Row="0">
-            <TextBox x:Name="textBoxEmission" Margin="0" TextWrapping="Wrap" TextChanged="textBox_TextChanged" KeyUp="textBoxEmission_KeyUp" AcceptsReturn="True"/>
+            <TextBox x:Name="textBoxEmission" Margin="0" TextWrapping="Wrap" TextChanged="textBox_TextChanged" KeyUp="textBoxEmission_KeyUp"/>
         </GroupBox>
         <GroupBox x:Name="Réception" Header="Reception" Margin="5" BorderBrush="Black" Foreground="Black" Grid.Column="1" Grid.Row="0">
             <TextBox x:Name="Reception" Margin="0" TextWrapping="Wrap" SpellCheck.IsEnabled="True" IsReadOnly="True"/>
         </GroupBox>
         <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="0" Margin="0" Grid.Row="1" Width="100" Click="buttonEnvoyer_Click" HorizontalAlignment="Center"/>
+        <Button x:Name="buttonClear" Content="Clear" Grid.Column="1" Margin="0" Grid.Row="1" Width="100" Click="buttonClear_Click" HorizontalAlignment="Center"/>
 
     </Grid>
 </Window>
