@@ -12,6 +12,7 @@
 
             <RowDefinition Height="30"/>
             <RowDefinition Height="15"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
 
@@ -28,6 +29,7 @@
         </GroupBox>
         <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="0" Margin="0" Grid.Row="1" Width="100" Click="buttonEnvoyer_Click" HorizontalAlignment="Center"/>
         <Button x:Name="buttonClear" Content="Clear" Grid.Column="1" Margin="0" Grid.Row="1" Width="100" Click="buttonClear_Click" HorizontalAlignment="Center"/>
+        <Button x:Name="buttonTest" Content="Test" Grid.Column="1" Margin="0" Grid.Row="3" Width="100" Click="buttonTest_Click" HorizontalAlignment="Center"/>
 
     </Grid>
 </Window>

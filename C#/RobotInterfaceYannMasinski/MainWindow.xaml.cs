@@ -35,12 +35,13 @@ namespace RobotInterfaceYannMasinski
             serialPort1.DataReceived += serialPort1_DataReceived;
             serialPort1.Open();
 
+            robot = new Robot();
+
             timerAffichage= new DispatcherTimer();
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerAffichage.Tick += TimerAffichage_Tick; ;
             timerAffichage.Start();
 
-            Robot robot = new Robot();
         }
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
@@ -74,6 +75,15 @@ namespace RobotInterfaceYannMasinski
         private void buttonClear_Click(object sender, RoutedEventArgs e)
         {
             Reception.Text = "";
+        }
+
+        private void buttonTest_Click(object sender, RoutedEventArgs e)
+        {
+            var byteList = new byte[20];
+            for (int i = 0; i < 20; i++)
+            {
+                byteList[i] = (byte)(2 * i);
+            }
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
