@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+Embedded/Robot_Masinski.X/nbproject/private/private.xml
