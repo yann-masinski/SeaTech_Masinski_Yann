@@ -25,8 +25,8 @@ namespace RobotInterfaceYannMasinski
     public partial class MainWindow : Window
     {
         ReliableSerialPort serialPort1;
-        string receivedText;
         DispatcherTimer timerAffichage;
+        Robot robot;
 
         public MainWindow()
         {
@@ -34,24 +34,27 @@ namespace RobotInterfaceYannMasinski
             serialPort1= new ReliableSerialPort("COM4", 115200, Parity.None, 8, StopBits.One );
             serialPort1.DataReceived += serialPort1_DataReceived;
             serialPort1.Open();
+
             timerAffichage= new DispatcherTimer();
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerAffichage.Tick += TimerAffichage_Tick; ;
             timerAffichage.Start();
+
+            Robot robot = new Robot();
         }
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
-            if (receivedText != "")
+            if (robot.receivedText != "")
             {
-                Reception.Text += "Reçu : " + receivedText + "\n";
-                receivedText = "";
+                Reception.Text += "Reçu : " + robot.receivedText + "\n";
+                robot.receivedText = "";
             }
         }
 
         public void serialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            receivedText+= Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
