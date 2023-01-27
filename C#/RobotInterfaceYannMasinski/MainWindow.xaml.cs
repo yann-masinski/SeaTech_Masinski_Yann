@@ -31,7 +31,7 @@ namespace RobotInterfaceYannMasinski
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1= new ReliableSerialPort("COM4", 115200, Parity.None, 8, StopBits.One );
+            serialPort1= new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One );
             serialPort1.DataReceived += serialPort1_DataReceived;
             serialPort1.Open();
 
@@ -48,7 +48,7 @@ namespace RobotInterfaceYannMasinski
         {
             if (robot.receivedText != "")
             {
-                Reception.Text += "Reçu : " + robot.receivedText + "\n";
+                Reception.Text += "Reçu Robot : " + robot.receivedText + "\n";
                 robot.receivedText = "";
             }
         }
@@ -84,6 +84,7 @@ namespace RobotInterfaceYannMasinski
             {
                 byteList[i] = (byte)(2 * i);
             }
+            serialPort1.Write(byteList, 0, byteList.Length);
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
@@ -95,7 +96,7 @@ namespace RobotInterfaceYannMasinski
         }
         private void SendMessage()
         {
-            Reception.Text += "Reçu : " + textBoxEmission.Text + "\n";
+            //Reception.Text += "Reçu : " + textBoxEmission.Text + "\n";
             serialPort1.WriteLine(textBoxEmission.Text);
             textBoxEmission.Text = "";
         }
