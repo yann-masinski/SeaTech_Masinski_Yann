@@ -56,6 +56,8 @@ void InitIO() {
     _TRISG9 = 1;    //milieu gauche 3
     _TRISB1 =1;     // extrem gauche  0
     _TRISE15=1;     // extrem droit 4
-
+    
+    _U1RXR = 24; //Remappe la RP sur l'entré Rx1
+    _RP36R = 0b00001; //Remappe la sortie Tx1 vers RP 36
 
 }
