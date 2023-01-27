@@ -9,6 +9,7 @@
 #include "Robot.h"
 #include "main.h"
 #include "UART.h"
+#include "CB_TX1.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -189,21 +190,7 @@ void SetNextRobotStateInAutomaticMode() {
             robotState.distanceTelemetreCentre > disevitement &&
             robotState.distanceTelemetreGauche > disevitement)
         positionObstacle = PAS_D_OBSTACLE;
-    /*
-     else if (robotState.distanceTelemetreDroit < disevitement &&
-            robotState.distanceTelemetreExtremDroit < disevitement &&
-            robotState.distanceTelemetreExtremGauche < disevitement &&
-            robotState.distanceTelemetreCentre < disevitement &&
-            robotState.distanceTelemetreGauche < disevitement)
-        positionObstacle = OBSTACLE_AUTOUR;
-         
-else if (robotState.distanceTelemetreDroit > disevitement &&
-        robotState.distanceTelemetreExtremDroit < disevitement - 5 &&
-        robotState.distanceTelemetreExtremGauche < disevitement - 5 &&
-        robotState.distanceTelemetreCentre > disevitement &&
-        robotState.distanceTelemetreGauche > disevitement)
-    positionObstacle = OBSTACLE_COTE;
-     */
+    
 
 
 
