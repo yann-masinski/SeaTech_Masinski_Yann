@@ -12,9 +12,11 @@ namespace RobotInterfaceYannMasinski
         public float distancetelementreDroit;
         public float distancetelementreCentre;
         public float distancetelementreGauche;
+        public Queue<byte> byteListReceived;
+
         public Robot()
         {
-
+            byteListReceived = new Queue<byte>();
         }
     }
 }

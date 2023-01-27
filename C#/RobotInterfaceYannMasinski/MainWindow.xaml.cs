@@ -37,25 +37,38 @@ namespace RobotInterfaceYannMasinski
 
             robot = new Robot();
 
-            timerAffichage= new DispatcherTimer();
+            timerAffichage= new DispatcherTimer(priority: DispatcherPriority.Input);
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            timerAffichage.Tick += TimerAffichage_Tick; ;
+            timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
+
 
         }
 
         private void TimerAffichage_Tick(object sender, EventArgs e)
         {
-            if (robot.receivedText != "")
+            //if (robot.receivedText != "")
+            //{
+            //    Reception.Text += "Reçu Robot : " + robot.receivedText + "\n";
+            //    robot.receivedText = "";
+                
+            //}
+
+            while (robot.byteListReceived.Count != 0)
             {
-                Reception.Text += "Reçu Robot : " + robot.receivedText + "\n";
-                robot.receivedText = "";
+                var c = robot.byteListReceived.Dequeue();
+                Reception.Text += "0x" + c.ToString("X2") + " ";
             }
         }
 
         public void serialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+
+            for (int i = 0; i < e.Data.Length; i++)
+            {
+                robot.byteListReceived.Enqueue(e.Data[i]);
+            }
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -97,6 +110,7 @@ namespace RobotInterfaceYannMasinski
         private void SendMessage()
         {
             //Reception.Text += "Reçu : " + textBoxEmission.Text + "\n";
+
             serialPort1.WriteLine(textBoxEmission.Text);
             textBoxEmission.Text = "";
         }

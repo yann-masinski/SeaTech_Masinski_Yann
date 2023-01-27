@@ -8,6 +8,7 @@
 #include "ADC.h"
 #include "Robot.h"
 #include "main.h"
+#include "UART.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -24,6 +25,7 @@ int main(void) {
     InitTimer4(1000);
     InitPWM();
     InitADC1();
+    InitUART();
 
     LED_BLANCHE = 0;
     LED_BLEUE = 0;
