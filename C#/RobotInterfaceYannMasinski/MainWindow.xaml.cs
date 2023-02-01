@@ -115,5 +115,28 @@ namespace RobotInterfaceYannMasinski
             textBoxEmission.Text = "";
         }
 
+        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload) {
+            byte chks = 0;
+            (byte sortie1, byte sortie2) =IntToByte(msgFunction);
+            chks ^= sortie1;
+            chks ^= sortie2;
+
+            (sortie1, sortie2) = IntToByte(msgPayloadLength);
+            chks ^= sortie1;
+            chks ^= sortie2;
+
+            for (int i = 0; i < msgPayload.Length; i++)
+                (sortie1, sortie2) = IntToByte(msgPayload[i]);
+                chks ^= sortie1;
+                chks ^= sortie2;
+            return chks;
+        }
+
+        (byte,byte) IntToByte(int entrée) {
+            ;
+            byte sortie1 = (byte)(entrée >> 8);
+            byte sortie2 = (byte)(entrée);
+            return (sortie1, sortie2);
+        }
     }
 }

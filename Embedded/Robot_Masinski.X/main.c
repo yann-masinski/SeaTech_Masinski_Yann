@@ -10,6 +10,7 @@
 #include "main.h"
 #include "UART.h"
 #include "CB_TX1.h"
+#include <libpic30.h> 
 
 int main(void) {
     /***************************************************************************************************/
@@ -37,10 +38,16 @@ int main(void) {
     /****************************************************************************************************/
     while (1) {
         /*
-        SendMessageDirect((unsigned char*) "Bonjour", 7);
-        __delay32(40000000);
-        */
-        
+                SendMessage((unsigned char*) "helloworld", 10);
+                __delay32(40000000);
+         */
+        int i;
+        for (i = 0; i < CB_RX1_GetDataSize(); i++) {
+            unsigned char c = CB_RX1_Get();
+            SendMessage(&c, 1);
+        }
+        __delay32(10000);
+
         if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
 
@@ -65,6 +72,8 @@ int main(void) {
 
             if (robotState.distanceTelemetreGauche < 30 || robotState.distanceTelemetreExtremGauche < 30) LED_BLANCHE = 1;
             else LED_BLANCHE = 0;
+
+
 
 
         }
@@ -190,7 +199,7 @@ void SetNextRobotStateInAutomaticMode() {
             robotState.distanceTelemetreCentre > disevitement &&
             robotState.distanceTelemetreGauche > disevitement)
         positionObstacle = PAS_D_OBSTACLE;
-    
+
 
 
 
