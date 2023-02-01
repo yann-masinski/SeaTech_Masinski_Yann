@@ -3,14 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/CB_TX1.h</file>
-            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/UART.h</file>
             <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/IO.c</file>
-            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/timer.c</file>
-            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/main.c</file>
             <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/UART.c</file>
+            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/timer.c</file>
             <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/timer.h</file>
+            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/UART.h</file>
+            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/main.c</file>
             <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/CB_TX1.c</file>
+            <file>file:/C:/Github/SeaTech_Masinski_Yann/Embedded/Robot_Masinski.X/CB_TX1.h</file>
         </group>
     </open-files>
 </project-private>
