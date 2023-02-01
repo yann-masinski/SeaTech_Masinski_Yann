@@ -31,13 +31,13 @@ namespace RobotInterfaceYannMasinski
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1= new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One );
+            serialPort1 = new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += serialPort1_DataReceived;
             serialPort1.Open();
 
             robot = new Robot();
 
-            timerAffichage= new DispatcherTimer(priority: DispatcherPriority.Input);
+            timerAffichage = new DispatcherTimer(priority: DispatcherPriority.Input);
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
@@ -51,7 +51,7 @@ namespace RobotInterfaceYannMasinski
             //{
             //    Reception.Text += "Reçu Robot : " + robot.receivedText + "\n";
             //    robot.receivedText = "";
-                
+
             //}
 
             while (robot.byteListReceived.Count != 0)
@@ -78,9 +78,13 @@ namespace RobotInterfaceYannMasinski
 
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            if (buttonEnvoyer.Background == Brushes.RoyalBlue){
+            if (buttonEnvoyer.Background == Brushes.RoyalBlue)
+            {
                 buttonEnvoyer.Background = Brushes.Beige;
-            } else { buttonEnvoyer.Background = Brushes.RoyalBlue; 
+            }
+            else
+            {
+                buttonEnvoyer.Background = Brushes.RoyalBlue;
             }
             SendMessage();
         }
@@ -92,12 +96,9 @@ namespace RobotInterfaceYannMasinski
 
         private void buttonTest_Click(object sender, RoutedEventArgs e)
         {
-            var byteList = new byte[20];
-            for (int i = 0; i < 20; i++)
-            {
-                byteList[i] = (byte)(2 * i);
-            }
-            serialPort1.Write(byteList, 0, byteList.Length);
+            string s = "Bonjour";
+            byte[] array = Encoding.ASCII.GetBytes(s);
+            UartEncodeAndSendMessage(0x0080, array.Length, array);
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
@@ -115,28 +116,38 @@ namespace RobotInterfaceYannMasinski
             textBoxEmission.Text = "";
         }
 
-        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload) {
+        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
             byte chks = 0;
-            (byte sortie1, byte sortie2) =IntToByte(msgFunction);
-            chks ^= sortie1;
-            chks ^= sortie2;
+            chks ^= (byte)0xFE;
+            chks ^= (byte)(msgFunction >> 8);
+            chks ^= (byte)(msgFunction >> 0);
+            chks ^= (byte)(msgPayloadLength >> 8);
+            chks ^= (byte)(msgPayloadLength >> 0);
 
-            (sortie1, sortie2) = IntToByte(msgPayloadLength);
-            chks ^= sortie1;
-            chks ^= sortie2;
-
-            for (int i = 0; i < msgPayload.Length; i++)
-                (sortie1, sortie2) = IntToByte(msgPayload[i]);
-                chks ^= sortie1;
-                chks ^= sortie2;
+            for (int i = 0; i < msgPayloadLength; i++)
+            {
+                chks ^= msgPayload[i];
+            }
             return chks;
         }
 
-        (byte,byte) IntToByte(int entrée) {
-            ;
-            byte sortie1 = (byte)(entrée >> 8);
-            byte sortie2 = (byte)(entrée);
-            return (sortie1, sortie2);
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte[] bytelist = new byte[6 + msgPayloadLength];
+
+            int position = 0;
+            bytelist[position++] = 0xFE;
+            bytelist[position++] = (byte)(msgFunction >> 8);
+            bytelist[position++] = (byte)(msgFunction >> 0);
+            bytelist[position++] = (byte)(msgPayloadLength >> 8);
+            bytelist[position++] = (byte)(msgPayloadLength >> 0);
+            for (int i = 0; i < msgPayloadLength; i++)
+            {
+                bytelist[position++] = msgPayload[i];
+            }
+            bytelist[position] = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+            serialPort1.Write(bytelist, 0, bytelist.Length);
         }
     }
 }
