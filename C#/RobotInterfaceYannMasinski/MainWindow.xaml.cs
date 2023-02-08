@@ -290,9 +290,13 @@ namespace RobotInterfaceYannMasinski
                 }
             }
             if (msgFunction == 0x0030) {
-
+                labelIrGauche.Content = "IR Gauche : " + msgPayload[0].ToString("X2");
+                labelIrGauche.Content = "IR Centre : " + msgPayload[1].ToString("X2");
+                labelIrGauche.Content = "IR Droit : " + msgPayload[2].ToString("X2");
             }
             if (msgFunction == 0x0040) {
+                MoteurGauche.Content = "Moteur Gauche : " + msgDecodedPayload[0].ToString("X2") + " %";
+                MoteurDroit.Content = "Moteur Droit : " + msgDecodedPayload[1].ToString("X2") + " %";
 
             }
         }
