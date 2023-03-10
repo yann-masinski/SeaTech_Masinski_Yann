@@ -54,8 +54,8 @@ void InitTimer1(float freq) {
     T1CONbits.TON = 0; // Disable Timer
     T1CONbits.TCS = 0; //clock source = internal clock
     SetFreqTimer1(freq);
-    
-    
+
+
     /*T1CONbits.TCKPS = 0b10; //Prescaler
     //11 = 1:256 prescale value
     //10 = 1:64 prescale value
@@ -76,7 +76,7 @@ void InitTimer4(float freq) {
     T4CONbits.TON = 0; // Disable Timer
     T4CONbits.TCS = 0; //clock source = internal clock
     SetFreqTimer4(freq);
-    
+
     IFS1bits.T4IF = 0; // Clear Timer Interrupt Flag
     IEC1bits.T4IE = 1; // Enable Timer interrupt
     T4CONbits.TON = 1; // Enable Timer
@@ -93,9 +93,10 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
 }
 
 //Interruption du timer 4
+
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
-    timestamp=timestamp+1;
+    timestamp = timestamp + 1;
     OperatingSystemLoop();
 }
 
@@ -132,3 +133,23 @@ void SetFreqTimer4(float freq) {
     } else
         PR4 = (int) (FCY / freq);
 }
+
+//Interruption en mode loopback
+/*
+void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
+    IFS0bits.U1RXIF = 0; // clear RX interrupt flag
+    // check for receive errors 
+    if (U1STAbits.FERR == 1) {
+        U1STAbits.FERR = 0;
+    }
+    // must clear the overrun error to keep uart receiving 
+    if (U1STAbits.OERR == 1) {
+        U1STAbits.OERR = 0;
+    }
+    // get the data 
+    while (U1STAbits.URXDA == 1) {
+        U1TXREG = U1RXREG;
+    }
+
+}
+*/  

@@ -8,6 +8,9 @@
 #include "ADC.h"
 #include "Robot.h"
 #include "main.h"
+#include "UART.h"
+#include "CB_TX1.h"
+#include <libpic30.h> 
 
 int main(void) {
     /***************************************************************************************************/
@@ -24,6 +27,7 @@ int main(void) {
     InitTimer4(1000);
     InitPWM();
     InitADC1();
+    InitUART();
 
     LED_BLANCHE = 0;
     LED_BLEUE = 0;
@@ -33,6 +37,17 @@ int main(void) {
     // Boucle Principale
     /****************************************************************************************************/
     while (1) {
+        /*
+                SendMessage((unsigned char*) "helloworld", 10);
+                __delay32(40000000);
+         */
+        int i;
+        for (i = 0; i < CB_RX1_GetDataSize(); i++) {
+            unsigned char c = CB_RX1_Get();
+            SendMessage(&c, 1);
+        }
+        __delay32(10000);
+
         if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
 
@@ -57,6 +72,8 @@ int main(void) {
 
             if (robotState.distanceTelemetreGauche < 30 || robotState.distanceTelemetreExtremGauche < 30) LED_BLANCHE = 1;
             else LED_BLANCHE = 0;
+
+
 
 
         }
@@ -131,7 +148,7 @@ void OperatingSystemLoop(void) {
             PWMSetSpeedConsigne(-vitessemanoeuvre / 2, MOTEUR_DROIT);
             PWMSetSpeedConsigne(vitessemanoeuvre / 2, MOTEUR_GAUCHE);
             demi = 0;
-                    stateRobot = DEMI_TOUR_EN_COURS;
+            stateRobot = DEMI_TOUR_EN_COURS;
             break;
         case DEMI_TOUR_EN_COURS:
             demi = demi + 1;
@@ -182,21 +199,7 @@ void SetNextRobotStateInAutomaticMode() {
             robotState.distanceTelemetreCentre > disevitement &&
             robotState.distanceTelemetreGauche > disevitement)
         positionObstacle = PAS_D_OBSTACLE;
-        /*
-         else if (robotState.distanceTelemetreDroit < disevitement &&
-                robotState.distanceTelemetreExtremDroit < disevitement &&
-                robotState.distanceTelemetreExtremGauche < disevitement &&
-                robotState.distanceTelemetreCentre < disevitement &&
-                robotState.distanceTelemetreGauche < disevitement)
-            positionObstacle = OBSTACLE_AUTOUR;
-         
-    else if (robotState.distanceTelemetreDroit > disevitement &&
-            robotState.distanceTelemetreExtremDroit < disevitement - 5 &&
-            robotState.distanceTelemetreExtremGauche < disevitement - 5 &&
-            robotState.distanceTelemetreCentre > disevitement &&
-            robotState.distanceTelemetreGauche > disevitement)
-        positionObstacle = OBSTACLE_COTE;
-         */
+
 
 
 
