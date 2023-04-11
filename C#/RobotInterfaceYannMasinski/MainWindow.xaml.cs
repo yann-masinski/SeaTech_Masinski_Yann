@@ -248,13 +248,13 @@ namespace RobotInterfaceYannMasinski
                     receivedChecksum = c;
                     if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == receivedChecksum)
                     {
-                       
-                        Reception.Text += "OxFE";
-                        Reception.Text += msgDecodedFunction.ToString("X4");
-                        Reception.Text += msgDecodedPayloadLength.ToString("X4");
-                        Reception.Text += Encoding.ASCII.GetString(msgDecodedPayload);
-                        Reception.Text +=receivedChecksum.ToString("X2");
-
+                        /*
+                         Reception.Text += "OxFE";
+                         Reception.Text += msgDecodedFunction.ToString("X4");
+                         Reception.Text += msgDecodedPayloadLength.ToString("X4");
+                         Reception.Text += Encoding.ASCII.GetString(msgDecodedPayload);
+                         Reception.Text +=receivedChecksum.ToString("X2");
+                        */
                         ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
                     }
                     else
@@ -270,8 +270,9 @@ namespace RobotInterfaceYannMasinski
 
         void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
-            if (msgFunction== 0x0080) { 
-
+            if (msgFunction== 0x0080) {
+               // Reception.Text += Encoding.ASCII.GetString(msgDecodedPayload);
+               // Reception.Text += "\n";
             }
             if (msgFunction == 0x0020) { 
                              
@@ -292,9 +293,9 @@ namespace RobotInterfaceYannMasinski
                 }
             }
             if (msgFunction == 0x0030) {
-                labelIrGauche.Content = "IR Gauche : " + msgPayload[0].ToString("X2");
-                labelIrGauche.Content = "IR Centre : " + msgPayload[1].ToString("X2");
-                labelIrGauche.Content = "IR Droit : " + msgPayload[2].ToString("X2");
+                labelIrGauche.Content = "IR Gauche : " + msgPayload[0].ToString()+" cm";
+                labelIrCentre.Content = "IR Centre : " + msgPayload[1].ToString() + " cm";
+                labelIrDroit.Content = "IR Droit : " + msgPayload[2].ToString() + " cm";
             }
             if (msgFunction == 0x0040) {
                 MoteurGauche.Content = "Moteur Gauche : " + msgDecodedPayload[0].ToString("X2") + " %";

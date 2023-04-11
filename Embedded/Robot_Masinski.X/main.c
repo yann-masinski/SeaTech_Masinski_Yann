@@ -12,6 +12,7 @@
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include <libpic30.h> 
+#include "UART_Protocol.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -39,15 +40,22 @@ int main(void) {
     /****************************************************************************************************/
     while (1) {
         /*
-                SendMessageDirect((unsigned char*) "helloworld", 10);
-                __delay32(40000000);
-         */
+        //////  renvoie les messages envoyer
         int i;
         for (i = 0; i < CB_RX1_GetDataSize(); i++) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }
-
+        //////
+         */
+        
+        /*
+        unsigned char payload[] = {'b','o','n','j','o','u','r'};
+        int msgfonction = 0x0080;
+        UartEncodeAndSendMessage( msgfonction, sizeof(payload), payload);
+        __delay32(40000000);
+        */
+        
         if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
 
@@ -62,7 +70,11 @@ int main(void) {
             robotState.distanceTelemetreExtremGauche = 34 / volts - 5;
             volts = ((float) result[0])*3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremDroit = 34 / volts - 5;
-
+            
+            
+            // envoie des msg de telemetre
+            unsigned char payloadtelemetre[] = {(unsigned char)robotState.distanceTelemetreGauche, (unsigned char)robotState.distanceTelemetreCentre, (unsigned char)robotState.distanceTelemetreDroit };
+            UartEncodeAndSendMessage(0x0030,sizeof(payloadtelemetre),payloadtelemetre);
 
             if (robotState.distanceTelemetreDroit < 30 || robotState.distanceTelemetreExtremDroit < 30) LED_ORANGE = 1;
             else LED_ORANGE = 0;
