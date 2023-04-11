@@ -31,7 +31,7 @@ namespace RobotInterfaceYannMasinski
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM8", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += serialPort1_DataReceived;
             serialPort1.Open();
 
@@ -224,23 +224,25 @@ namespace RobotInterfaceYannMasinski
 
                 case StateReception.PayloadLengthLSB:
                     msgDecodedPayloadLength += c << 0;
-                    msgDecodedPayloadIndex = 0;
-                    msgDecodedPayload = new byte[msgDecodedPayloadLength];
-                    rcvState = StateReception.Payload;
-                    break;
-
-                case StateReception.Payload:
-                    if (msgDecodedPayloadIndex < msgDecodedPayloadLength-1)
+                    if (msgDecodedPayloadLength == 0)
                     {
-                        msgDecodedPayload[msgDecodedPayloadIndex++] = c;
-                        break;
+                        rcvState = StateReception.CheckSum;
                     }
                     else
                     {
-                        msgDecodedPayload[msgDecodedPayloadIndex] = c;
-                        rcvState = StateReception.CheckSum;
-                        break;
+                        rcvState = StateReception.Payload;
+                        msgDecodedPayloadIndex = 0;
+                        msgDecodedPayload = new byte[msgDecodedPayloadLength];
                     }
+                    break;
+
+                case StateReception.Payload:
+                    msgDecodedPayload[msgDecodedPayloadIndex++] = c;
+                    if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
+                    {
+                        rcvState = StateReception.CheckSum;
+                    }
+                    break;
 
                 case StateReception.CheckSum:
                     receivedChecksum = c;

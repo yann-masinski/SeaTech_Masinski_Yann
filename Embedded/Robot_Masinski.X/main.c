@@ -10,6 +10,7 @@
 #include "main.h"
 #include "UART.h"
 #include "CB_TX1.h"
+#include "CB_RX1.h"
 #include <libpic30.h> 
 
 int main(void) {
@@ -38,7 +39,7 @@ int main(void) {
     /****************************************************************************************************/
     while (1) {
         /*
-                SendMessage((unsigned char*) "helloworld", 10);
+                SendMessageDirect((unsigned char*) "helloworld", 10);
                 __delay32(40000000);
          */
         int i;
@@ -46,7 +47,6 @@ int main(void) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }
-        __delay32(10000);
 
         if (ADCIsConversionFinished() == 1) {
             ADCClearConversionFinishedFlag();
