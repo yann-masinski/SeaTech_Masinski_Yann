@@ -106,14 +106,14 @@ namespace RobotInterfaceYannMasinski
             UartEncodeAndSendMessage(0x0080, array.Length, array);
 
             array = new byte[2];
-            array[0] =1;
+            array[0] = 1;
             array[1] = 1;
             UartEncodeAndSendMessage(0x0020, array.Length, array);
 
             array = new byte[3];
-            array[0] =1;
-            array[1] =2;
-            array[2] =3;
+            array[0] = 1;
+            array[1] = 2;
+            array[2] = 3;
             UartEncodeAndSendMessage(0x0030, array.Length, array);
 
             array = new byte[2];
@@ -187,23 +187,23 @@ namespace RobotInterfaceYannMasinski
             Payload,
             CheckSum
         }
-        
+
         StateReception rcvState = StateReception.Waiting;
         int msgDecodedFunction = 0;
         int msgDecodedPayloadLength = 0;
         byte[] msgDecodedPayload;
         int msgDecodedPayloadIndex = 0;
         int receivedChecksum = 0;
-    
+
 
         private void DecodeMessage(byte c)
         {
             switch (rcvState)
             {
-                
+
                 case StateReception.Waiting:
-                    
-                    if (c==0xFE)
+
+                    if (c == 0xFE)
                         rcvState = StateReception.FunctionMSB;
                     break;
 
@@ -267,41 +267,86 @@ namespace RobotInterfaceYannMasinski
             }
         }
 
+        public enum MsgFunction
+        {
+            texte = 0x0080,
+            led = 0x0020,
+            capteurIr=0x0030,
+            moteur=0x0040,
+            etat=0x0050
+        }
+
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_ATTENTE_EN_COURS = 1,
+            STATE_AVANCE = 2,
+            STATE_AVANCE_EN_COURS = 3,
+            STATE_TOURNE_GAUCHE = 4,
+            STATE_TOURNE_GAUCHE_EN_COURS = 5,
+            STATE_TOURNE_DROITE = 6,
+            STATE_TOURNE_DROITE_EN_COURS = 7,
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_GAUCHE_EN_COURS = 9,
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_TOURNE_SUR_PLACE_DROITE_EN_COURS = 11,
+            STATE_ARRET = 12,
+            STATE_ARRET_EN_COURS = 13,
+            STATE_RECULE = 14,
+            STATE_RECULE_EN_COURS = 15
+        }
 
         void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
-            if (msgFunction== 0x0080) {
-               // Reception.Text += Encoding.ASCII.GetString(msgDecodedPayload);
-               // Reception.Text += "\n";
-            }
-            if (msgFunction == 0x0020) { 
-                             
-                if (msgPayload[1] == 1)
-                {
-                    if (msgPayload[1] == 0) Led1.IsChecked = false;
-                    else Led1.IsChecked= true;
-                }
-                if (msgPayload[1] == 2)
-                {
-                    if (msgPayload[2] == 0) Led2.IsChecked = false;
-                    else Led2.IsChecked = true;
-                }
-                if (msgPayload[1] == 3)
-                {
-                    if (msgPayload[3] == 0) Led3.IsChecked = false;
-                    else Led3.IsChecked = true;
-                }
-            }
-            if (msgFunction == 0x0030) {
-                labelIrGauche.Content = "IR Gauche : " + msgPayload[0].ToString()+" cm";
-                labelIrCentre.Content = "IR Centre : " + msgPayload[1].ToString() + " cm";
-                labelIrDroit.Content = "IR Droit : " + msgPayload[2].ToString() + " cm";
-            }
-            if (msgFunction == 0x0040) {
-                MoteurGauche.Content = "Moteur Gauche : " + msgDecodedPayload[0].ToString("X2") + " %";
-                MoteurDroit.Content = "Moteur Droit : " + msgDecodedPayload[1].ToString("X2") + " %";
+            switch ((MsgFunction)msgFunction)
+            {
+
+
+                case MsgFunction.texte:
+                    // Reception.Text += Encoding.ASCII.GetString(msgDecodedPayload);
+                    // Reception.Text += "\n";
+                    break;
+
+                case MsgFunction.led:
+
+                    if (msgPayload[1] == 1)
+                    {
+                        if (msgPayload[1] == 0) Led1.IsChecked = false;
+                        else Led1.IsChecked = true;
+                    }
+                    if (msgPayload[1] == 2)
+                    {
+                        if (msgPayload[2] == 0) Led2.IsChecked = false;
+                        else Led2.IsChecked = true;
+                    }
+                    if (msgPayload[1] == 3)
+                    {
+                        if (msgPayload[3] == 0) Led3.IsChecked = false;
+                        else Led3.IsChecked = true;
+                    }
+                    break;
+
+                case MsgFunction.capteurIr:
+
+                    labelIrGauche.Content = "IR Gauche : " + msgPayload[0].ToString() + " cm";
+                    labelIrCentre.Content = "IR Centre : " + msgPayload[1].ToString() + " cm";
+                    labelIrDroit.Content = "IR Droit : " + msgPayload[2].ToString() + " cm";
+                    break;
+                case MsgFunction.moteur:
+
+                    MoteurGauche.Content = "Moteur Gauche : " + msgDecodedPayload[0].ToString("X2") + " %";
+                    MoteurDroit.Content = "Moteur Droit : " + msgDecodedPayload[1].ToString("X2") + " %";
+                    break;
+
+                case MsgFunction.etat:
+                    int instant = (((int)msgPayload[1]) << 24) + (((int)msgPayload[2]) << 16) + (((int)msgPayload[3]) << 8) + ((int)msgPayload[4]);
+                    Reception.Text += "\nRobot␣State␣:␣" + ((StateRobot)(msgPayload[0])).ToString() + "␣-␣" + instant.ToString() + "␣ms";
+                    break;
+
 
             }
+
         }
+
     }
 }

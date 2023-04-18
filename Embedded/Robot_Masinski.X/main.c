@@ -251,5 +251,7 @@ void SetNextRobotStateInAutomaticMode() {
     //Si l?on n?est pas dans la transition de l?étape en cours
     if (nextStateRobot != stateRobot - 1) {
         stateRobot = nextStateRobot;
+        unsigned char payloadetat[] = {(unsigned char)stateRobot,(unsigned char)timestamp>>24,(unsigned char)timestamp>>16,(unsigned char)timestamp>>8,(unsigned char)timestamp>>0  };
+        UartEncodeAndSendMessage(0x0050,sizeof(payloadetat),payloadetat);
     }
 }
