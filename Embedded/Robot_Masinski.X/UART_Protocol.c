@@ -28,12 +28,12 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
     bytelist[position++] = (char) (msgFunction >> 0);
     bytelist[position++] = (char) (msgPayloadLength >> 8);
     bytelist[position++] = (char) (msgPayloadLength >> 0);
-    
+
     for (int i = 0; i < msgPayloadLength; i++) {
         bytelist[position++] = msgPayload[i];
     }
     bytelist[position] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
-        SendMessage(bytelist,sizeof(bytelist));
+    SendMessage(bytelist, sizeof (bytelist));
 
 }
 int msgDecodedFunction = 0;
@@ -41,18 +41,89 @@ int msgDecodedPayloadLength = 0;
 unsigned char msgDecodedPayload[128];
 int msgDecodedPayloadIndex = 0;
 
-/*
+enum StateReception {
+    Waiting,
+    FunctionMSB,
+    FunctionLSB,
+    PayloadLengthMSB,
+    PayloadLengthLSB,
+    Payload,
+    CheckSum,
+};
+
+enum StateReception rcvState = Waiting;
+
 void UartDecodeMessage(unsigned char c) {
     //Fonction prenant en entree un octet et servant a reconstituer les trames
-    
+    switch (rcvState) {
+        case Waiting:
+            if (c == 0xFE)
+                rcvState = FunctionMSB;
+            break;
+
+        case FunctionMSB:
+            msgDecodedFunction = c << 8;
+            rcvState = FunctionLSB;
+            break;
+
+        case FunctionLSB:
+            msgDecodedFunction += c << 0;
+            rcvState = PayloadLengthMSB;
+            break;
+
+        case PayloadLengthMSB:
+            msgDecodedPayloadLength = c << 8;
+            rcvState = PayloadLengthLSB;
+            break;
+
+        case PayloadLengthLSB:
+            msgDecodedPayloadLength += c << 0;
+            if (msgDecodedPayloadLength == 0) {
+                rcvState = CheckSum;
+            } else if (msgDecodedPayloadLength >= 1000) {
+                rcvState = Waiting;
+            } else {
+                rcvState = Payload;
+                msgDecodedPayloadIndex = 0;
+            }
+            break;
+
+        case Payload:
+            msgDecodedPayload[msgDecodedPayloadIndex++] = c;
+            if (msgDecodedPayloadIndex >= msgDecodedPayloadLength) {
+                rcvState = CheckSum;
+            }
+            break;
+
+        case CheckSum:
+        {
+            unsigned char receivedChecksum = c;
+            if (UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == receivedChecksum) {
+                /*
+                 Reception.Text += "OxFE";
+                 Reception.Text += msgDecodedFunction.ToString("X4");
+                 Reception.Text += msgDecodedPayloadLength.ToString("X4");
+                 Reception.Text += Encoding.ASCII.GetString(msgDecodedPayload);
+                 Reception.Text +=receivedChecksum.ToString("X2");
+                 */
+                UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+            } else
+                //"Erreur Reception Cheksum incorrect";
+                rcvState = Waiting;
+        }
+            break;
+        default:
+            rcvState = Waiting;
+            break;
+    }
 }
 
 void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload) {
     //Fonction appelee apres le decodage pour executer l?action
     //correspondant au message recu
-    
+
 }
- */ 
+
 //*************************************************************************/
 //Fonctions correspondant aux messages
 //*************************************************************************/
