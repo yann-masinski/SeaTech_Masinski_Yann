@@ -14,6 +14,10 @@
 #include <libpic30.h> 
 #include "UART_Protocol.h"
 
+unsigned char EtatAEnvoyer = 0;
+unsigned char stateRobot;
+    
+    
 int main(void) {
     /***************************************************************************************************/
     //Initialisation de l?oscillateur
@@ -34,6 +38,8 @@ int main(void) {
     LED_BLANCHE = 0;
     LED_BLEUE = 0;
     LED_ORANGE = 0;
+    
+    int counter = 0;
 
     /****************************************************************************************************/
     // Boucle Principale
@@ -70,11 +76,10 @@ int main(void) {
             robotState.distanceTelemetreExtremGauche = 34 / volts - 5;
             volts = ((float) result[0])*3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremDroit = 34 / volts - 5;
-            
-            
+                        
             // envoie des msg de telemetre
             unsigned char payloadtelemetre[] = {(unsigned char)robotState.distanceTelemetreGauche, (unsigned char)robotState.distanceTelemetreCentre, (unsigned char)robotState.distanceTelemetreDroit };
-            UartEncodeAndSendMessage(0x0030,sizeof(payloadtelemetre),payloadtelemetre);
+            UartEncodeAndSendMessage(0x0030, 3 ,payloadtelemetre);
 
             if (robotState.distanceTelemetreDroit < 30 || robotState.distanceTelemetreExtremDroit < 30) LED_ORANGE = 1;
             else LED_ORANGE = 0;
@@ -84,15 +89,22 @@ int main(void) {
 
             if (robotState.distanceTelemetreGauche < 30 || robotState.distanceTelemetreExtremGauche < 30) LED_BLANCHE = 1;
             else LED_BLANCHE = 0;
-
-
-
-
+            
+            if((counter++%25)==0)
+            {
+            unsigned char payloadled[] = {(unsigned char)LED_BLANCHE, (unsigned char)LED_BLEUE, (unsigned char)LED_ORANGE };
+            UartEncodeAndSendMessage(0x0020,3,payloadled);
+            }                     
+        }
+        if(EtatAEnvoyer)
+        {
+            EtatAEnvoyer=0;
+            unsigned char payloadetat[] = {(unsigned char)stateRobot,(unsigned char)(timestamp>>24),(unsigned char)(timestamp>>16),(unsigned char)(timestamp>>8),(unsigned char)(timestamp>>0)  };
+            UartEncodeAndSendMessage(0x0050,5,payloadetat);
         }
     } // fin main
 }
 
-unsigned char stateRobot;
 float vitesse = 25;
 float vitessemanoeuvre = 25;
 float disevitement = 33;
@@ -251,7 +263,6 @@ void SetNextRobotStateInAutomaticMode() {
     //Si l?on n?est pas dans la transition de l?étape en cours
     if (nextStateRobot != stateRobot - 1) {
         stateRobot = nextStateRobot;
-        unsigned char payloadetat[] = {(unsigned char)stateRobot,(unsigned char)timestamp>>24,(unsigned char)timestamp>>16,(unsigned char)timestamp>>8,(unsigned char)timestamp>>0  };
-        UartEncodeAndSendMessage(0x0050,sizeof(payloadetat),payloadetat);
+        EtatAEnvoyer=1;
     }
 }

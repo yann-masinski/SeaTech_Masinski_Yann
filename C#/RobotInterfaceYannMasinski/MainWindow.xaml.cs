@@ -228,6 +228,10 @@ namespace RobotInterfaceYannMasinski
                     {
                         rcvState = StateReception.CheckSum;
                     }
+                    else if(msgDecodedPayloadLength>=1000)
+                    {
+                        rcvState = StateReception.Waiting;
+                    }
                     else
                     {
                         rcvState = StateReception.Payload;
@@ -309,21 +313,18 @@ namespace RobotInterfaceYannMasinski
 
                 case MsgFunction.led:
 
-                    if (msgPayload[1] == 1)
-                    {
-                        if (msgPayload[1] == 0) Led1.IsChecked = false;
-                        else Led1.IsChecked = true;
-                    }
-                    if (msgPayload[1] == 2)
-                    {
-                        if (msgPayload[2] == 0) Led2.IsChecked = false;
-                        else Led2.IsChecked = true;
-                    }
-                    if (msgPayload[1] == 3)
-                    {
-                        if (msgPayload[3] == 0) Led3.IsChecked = false;
-                        else Led3.IsChecked = true;
-                    }
+                    if (msgPayload[0] != 0)
+                        Led1.IsChecked = true;
+                    else
+                        Led1.IsChecked = false;
+                    if (msgPayload[1] != 0)
+                        Led2.IsChecked = true;
+                    else
+                        Led2.IsChecked = false;
+                    if (msgPayload[2] != 0)
+                        Led3.IsChecked = true;
+                    else
+                        Led3.IsChecked = false;
                     break;
 
                 case MsgFunction.capteurIr:
