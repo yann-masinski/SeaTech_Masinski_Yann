@@ -2,6 +2,7 @@
 #include "UART_Protocol.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "RobotState.h"
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction prenant en entree la trame et sa longueur pour calculer le checksum
@@ -118,10 +119,33 @@ void UartDecodeMessage(unsigned char c) {
     }
 }
 
+enum MsgFunction {
+    texte = 0x0080,
+    led = 0x0020,
+    capteurIr = 0x0030,
+    moteur = 0x0040,
+    etat = 0x0050,
+    SET_ROBOT_STATE= 0x0051,
+    SET_ROBOT_MANUAL_CONTROL=0x0052,
+    
+};
+
 void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload) {
     //Fonction appelee apres le decodage pour executer l?action
     //correspondant au message recu
-
+    enum MsgFunction msgFunction = function;
+    switch (msgFunction) {
+        case SET_ROBOT_STATE:
+            SetRobotState(payload[0]);
+            break;
+        case SET_ROBOT_MANUAL_CONTROL:
+            SetRobotAutoControlState(payload[0]);
+            
+            break;
+            
+        default:
+            break;
+    }
 }
 
 //*************************************************************************/

@@ -39,6 +39,7 @@
 #define OBSTACLE_A_EXGAUCHE 5
 #define OBSTACLE_AUTOUR 6
 #define OBSTACLE_COTE 7
+
 void OperatingSystemLoop(void);
 void SetNextRobotStateInAutomaticMode(void);
 
