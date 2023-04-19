@@ -4,6 +4,7 @@ typedef struct robotStateBITS {
     union {
         struct {
             unsigned char taskEnCours;
+            unsigned char automatique;
             float vitesseGaucheConsigne;
             float vitesseGaucheCommandeCourante;
             float vitesseDroiteConsigne;
@@ -13,7 +14,6 @@ typedef struct robotStateBITS {
             float distanceTelemetreGauche;
             float distanceTelemetreExtremGauche;
             float distanceTelemetreExtremDroit;
-            float automatique;
         }
         ;
     }

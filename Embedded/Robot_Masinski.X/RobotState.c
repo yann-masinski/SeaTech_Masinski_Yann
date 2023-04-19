@@ -10,14 +10,19 @@ extern unsigned char stateRobot;
 
 
 void SetRobotState(unsigned char state) {
-    stateRobot = state;
+    if (robotState.automatique == 0)
+    {
+        stateRobot = state;
+    }
 }
 
-void SetRobotAutoControlState(unsigned char payload) {
-    if (payload == 0) {
+void SetRobotAutoControlState(unsigned char state) {
+    if (state == 0) {
         robotState.automatique = 0;
     }
-    if (payload == 1) {
+    else
+    {
         robotState.automatique = 1;
+        stateRobot = STATE_ATTENTE;
     }
 }

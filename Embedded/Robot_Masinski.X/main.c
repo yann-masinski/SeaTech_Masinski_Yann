@@ -40,6 +40,8 @@ int main(void) {
     LED_ORANGE = 0;
 
     int counter = 0;
+    int counter2=0;
+    robotState.automatique=1;
 
     /****************************************************************************************************/
     // Boucle Principale
@@ -90,12 +92,18 @@ int main(void) {
             if (robotState.distanceTelemetreGauche < 30 || robotState.distanceTelemetreExtremGauche < 30) LED_BLANCHE = 1;
             else LED_BLANCHE = 0;
 
-            if ((counter++ % 25) == 0) {
+            if ((counter++ % 35) == 0) {
                 unsigned char payloadled[] = {(unsigned char) LED_BLANCHE, (unsigned char) LED_BLEUE, (unsigned char) LED_ORANGE};
                 UartEncodeAndSendMessage(0x0020, 3, payloadled);
             }
+            
+            if ((counter2++ % 25) == 0) {
+                unsigned char payloadmoteur[] = {(unsigned char) robotState.vitesseGaucheCommandeCourante, (unsigned char) robotState.vitesseDroiteCommandeCourante};
+                UartEncodeAndSendMessage(0x0040, 2, payloadmoteur);
+            }
+
         }
-        if (EtatAEnvoyer) {
+        if (EtatAEnvoyer) { 
             EtatAEnvoyer = 0;
             unsigned char payloadetat[] = {(unsigned char) stateRobot, (unsigned char) (timestamp >> 24), (unsigned char) (timestamp >> 16), (unsigned char) (timestamp >> 8), (unsigned char) (timestamp >> 0)};
             UartEncodeAndSendMessage(0x0050, 5, payloadetat);

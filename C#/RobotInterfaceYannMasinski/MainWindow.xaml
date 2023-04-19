@@ -49,6 +49,11 @@
                    
                 </StackPanel>
             </GroupBox>
+            <GroupBox Header="Mode" Height="122" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox x:Name="Mode" Content="Manuel" IsEnabled="True" Height="30" VerticalContentAlignment="Center" Click="ChangementMode"/>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
         <Button x:Name="buttonEnvoyer" Content="Envoyer" Grid.Column="0" Grid.Row="1" Width="100" Click="buttonEnvoyer_Click" HorizontalAlignment="Center"/>
         <Button x:Name="buttonClear" Content="Clear" Grid.Column="1" Grid.Row="1" Width="100" Click="buttonClear_Click" HorizontalAlignment="Center"/>
