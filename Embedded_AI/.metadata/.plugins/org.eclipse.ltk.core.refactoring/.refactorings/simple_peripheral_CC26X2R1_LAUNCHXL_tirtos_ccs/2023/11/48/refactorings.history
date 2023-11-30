@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;simple_peripheral_CC26X2R1_LAUNCHXL_tirtos_ccs/TacheADC/TacheADC&apos; to &apos;TacheADC.h&apos;" description="Rename resource &apos;TacheADC&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="TacheADC/TacheADC" name="TacheADC.h" stamp="1701356038481" updateReferences="true"/>
+</session>
