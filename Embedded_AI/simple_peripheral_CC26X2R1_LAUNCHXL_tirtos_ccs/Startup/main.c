@@ -64,6 +64,8 @@
 #endif // PTM_MODE
 
 #include "TacheADC/TacheADC.h"
+#include "TacheLCD/TacheLCD.h"
+#include "TacheFFTClassification/TacheFFTClassification.h"
 
 
 /* Header files required to enable instruction fetch cache */
@@ -157,6 +159,8 @@ int main()
 
       // SimplePeripheral_createTask();
       TacheADC_CreateTask();
+      TacheLCD_CreateTask();
+      TacheFFTClassification_CreateTask();
 
       /* enable interrupts and start SYS/BIOS */
       BIOS_start();
