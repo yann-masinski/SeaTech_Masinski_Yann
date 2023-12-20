@@ -1108,7 +1108,7 @@ void OLEDText22( int x, int y, char* textptr, int size, unsigned char red, unsig
 
 void OLEDText2( int x, int y, char* textptr, int size, char red, char green, char blue, char redB, char greenB, char blueB )
 {
-    unsigned char i, j, k, l, m;                        // Loop counters
+
     unsigned char pixelData [ 5 ];                      // Stores character data
     //unsigned char DataEnviar [8][ 300 ];                      // Stores character data
     //unsigned char DataEnviar2 [ 1000 ] = {0xff};                      // Stores character data

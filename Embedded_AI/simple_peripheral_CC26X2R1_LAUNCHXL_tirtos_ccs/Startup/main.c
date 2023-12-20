@@ -66,7 +66,7 @@
 #include "TacheADC/TacheADC.h"
 #include "TacheLCD/TacheLCD.h"
 #include "TacheFFTClassification/TacheFFTClassification.h"
-
+#include "TacheIA/TacheIA.h"
 
 /* Header files required to enable instruction fetch cache */
 #include <inc/hw_memmap.h>
@@ -161,6 +161,7 @@ int main()
       TacheADC_CreateTask();
       TacheLCD_CreateTask();
       TacheFFTClassification_CreateTask();
+      TacheIA_CreateTask();
 
       /* enable interrupts and start SYS/BIOS */
       BIOS_start();

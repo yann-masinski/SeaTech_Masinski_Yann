@@ -147,14 +147,16 @@ static void TacheLCD_taskFxn(UArg a0, UArg a1)
 
       if(firstTime){
           Fill_LCD(0xFF,0x00,0x00);//RGB
-          if(state)
-              OLEDText22( 20, 7, stateTraining, SIZE_TWO, 0x00, 0xFF, 0xFF );
+//          if(state==1)
+//              OLEDText22( 20, 7, stateTraining, SIZE_TWO, 0x00, 0xFF, 0xFF );
+//          if(state==2)
+//              OLEDText22( 20, 7, stateDetection, SIZE_TWO, 0x00, 0xFF, 0xFF );
           OLEDText22( 5, 30, stringClusterNumber, SIZE_ONE, 0x00, 0xFF, 0xFF );
           OLEDText22( 5, 42, stringAnomaliesNumber, SIZE_ONE, 0x00, 0xFF, 0xFF );
           firstTime = false;
       }
       else{
-          /*if(state){
+          if(state==1){
               OLEDText22( 20, 7, stateTraining, SIZE_TWO, 0x00, 0xFF, 0xFF );
           }
           else{
@@ -178,7 +180,7 @@ static void TacheLCD_taskFxn(UArg a0, UArg a1)
           intToString(numberAnomalies,nAnomalies);
 
           OLEDText22( 45, 30, numberCluster, SIZE_ONE, 0x00,  0xFF, 0xFF );
-          OLEDText22( 45, 42, numberAnomalies, SIZE_ONE, 0x00,  0xFF, 0xFF );*/
+          OLEDText22( 45, 42, numberAnomalies, SIZE_ONE, 0x00,  0xFF, 0xFF );
 
           //Frequency
           char feature0[5] = " ";

@@ -16,6 +16,8 @@
 #include "TacheLCD/TacheLCD.h"
 #include "Filters/Filter.h"
 #include "TacheFFTClassification/TacheFFTClassification.h"
+#include "TacheFFTClassification/PeakDetector.h"
+
 
 #define TacheADC_TASK_PRIORITY 3
 #define TacheADC_TASK_STACK_SIZE 1024
@@ -108,16 +110,11 @@ void TacheADC_taskFxn(UArg a0, UArg a1)
             FFTClassificationTrigger(SerieNormeAccel);
             //Le resultat est recupere dans DataYFFT
             indexFFT = 0;
+
+
+
         }
 
-        float features[6];
-               features[0]= AccelHPX;
-               features[1]= normeAccel;
-               features[2]= AccelHPY;
-               features[3]= normeAccelHP;
-               features[4]= AccelHPZ;
-               features[5]= 0;
-               LCD_PrintState(0, 0, 0, 0, features, 6);
 
     }
 }

@@ -10,7 +10,8 @@
 #include "FFT.h"
 #include "PeakDetector.h"
 #include "math.h"
-
+#include "TacheLCD/TacheLCD.h"
+#include "TacheIA/TacheIA.h"
 #define TacheFFTClassification_TASK_PRIORITY 2
 #define TacheFFTClassification_TASK_STACK_SIZE 1024
 
@@ -71,8 +72,18 @@ static void TacheFFTClassification_taskFxn(UArg a0, UArg a1)
             //Calcul de la FFT
             fft(FFTSerieReal, FFTSerieIm, 8, 1);
             //Extraction de la norme de la FFT dans FFTDataY
-            for (int i=0; i<256; i++)
-            FFTSerieReal[i] = sqrtf((FFTSerieReal[i]*FFTSerieReal[i]+FFTSerieIm[i]*FFTSerieIm[i]));
+            for (int i=0; i<256; i++) FFTSerieReal[i] = sqrtf((FFTSerieReal[i]*FFTSerieReal[i]+FFTSerieIm[i]*FFTSerieIm[i]));
             FFTSerieReal[0]=0;
+            //Determination des pics principaux
+            float OutPeakDetector[10];
+            DetectPeak(3, FFTSerieReal, 128, OutPeakDetector);
+
+            StartUnsupervisedClassificationOrDetection(OutPeakDetector, 10);
+
+
+
+
+
+
         }
 }
